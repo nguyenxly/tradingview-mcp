@@ -85,10 +85,10 @@ registerUiTools(server);
 registerPaneTools(server);
 registerTabTools(server);
 
-// Startup notice (stderr so it doesn't interfere with MCP stdio protocol)
-process.stderr.write('⚠  tradingview-mcp  |  Unofficial tool. Not affiliated with TradingView Inc. or Anthropic.\n');
-process.stderr.write('   Ensure your usage complies with TradingView\'s Terms of Use.\n\n');
-
 // Start stdio transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
+
+// Clean shutdown handlers for MCP IDE reloads
+process.on('SIGTERM', () => process.exit(0));
+process.on('SIGINT', () => process.exit(0));
